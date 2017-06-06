@@ -848,6 +848,7 @@ static int adPythonPluginConfigure(const char *portNameArg, const char *filename
                    NDArrayPort, NDArrayAddr, maxBuffers, maxMemory,
                    priority, stackSize);
     adp->initThreads();
+    adp->start();
     return(asynSuccess);
 }
 
