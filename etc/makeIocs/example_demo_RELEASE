@@ -1,2 +1,2 @@
-FFMPEGSERVER = $(SUPPORT)/ffmpegServer/3-1dls0-1
-ADURL = $(SUPPORT)/ADURL/2-1dls4
+FFMPEGSERVER = $(SUPPORT)/ffmpegServer/3-1dls1-2
+ADURL = $(SUPPORT)/ADURL/2-1dls5
