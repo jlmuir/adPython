@@ -26,8 +26,6 @@
 WORK=/dls_sw/work/R3.14.12.3/support
 TOOLS_BASE=/dls_sw/prod/tools/RHEL6-x86_64
 
-PYTHON_PREFIX=$(TOOLS_BASE)/Python/2-7-3/prefix
-
 # Set RULES here if you want to take build rules from somewhere
 # other than EPICS_BASE:
 #RULES=/path/to/epics/support/module/rules/x-y
