@@ -3,12 +3,14 @@
 \section intro_sec Introduction
 adPython is an <a href="http://cars9.uchicago.edu/software/epics/areaDetector.html">areaDetector</a> plugin which allows user python code to be run on each NDArray object the plugin receives, optionally creating a new NDArray object to pass out.
 
+\section deps_sec Dependencies
+- Python 2.7 (Must be built shared)
+- NumPy
+- (Optional) OpenCV Python module (Used by some scripts)
+
 \section inst_sec Installation
+- Modify configure/CONFIG_SITE
 - Modify configure/RELEASE
-- If you have python and numpy in a standard place then comment out PYTHON_PREFIX, otherwise download and
-   install python and numpy and set that macro to the install prefix you used.
-- Python must be built shared
-- Set AREADETECTOR to the path of areaDetector 1-9
 - Type make
 - Try the example in the \ref user_sec
 
@@ -102,7 +104,7 @@ The sliders will be set so that the index of the range can be set. It should be 
 
 \subsection offline_test Offline testing
 
-Lets try a test of the adPythonTemplate.py script. First we need to put the adPythonApp/src directory on the PYTHONPATH, then we can just pass the script as an argument for the python interpreter you compiled adPython against (called dls-python at Diamond).
+Let's try a test of the adPythonTemplate.py script. First we need to put the adPythonApp/src directory (or the plugin-scripts directory if using an installed adPython) on the PYTHONPATH, then we can just pass the script as an argument for the Python interpreter you compiled adPython against (called dls-python at Diamond).
 
 \code
 PYTHONPATH=adPythonApp/src dls-python ./adPythonApp/scripts/adPythonTemplate.py
@@ -118,9 +120,10 @@ Once you have understood the adPythonTemplate example you can copy it somewhere 
 
 \subsection new_plugin Writing an adPython script with custom parameters
 
-- Create a new python file in the adPythonApp/scripts directory caller adPython<name>
+- Create a new Python file in the adPythonApp/scripts directory (or plugin-scripts directory if working in an installed adPython) called adPython<name>.py
 - Create a \<name\> class that subclasses AdPythonPlugin
 - Implement the __init__, paramChanged and processArray functions
+- If you created the Python file in the adPythonApp/scripts directory, type make in that directory to install it to the plugin-scripts directory
 - Create a database for all parameters you have defined in the initialiser
 - Create an EDM screen that embeds adPythonPlugin.edl with widgets for all records in the database
 - (DLS only) Add an entry in the builder ArgInfo classname list
