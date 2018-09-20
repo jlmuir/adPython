@@ -6,6 +6,9 @@
 #include <Python.h>
 #define PYTHON_USE_NUMPY
 #define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
+// Workaround for building against NumPy with -Wall -Wundef -Werror; not
+// needed if NumPy contains commit c6566b7.
+#define NPY_INTERNAL_BUILD 0
 #include "numpy/ndarrayobject.h"
 #include <stdio.h>
 #include <libgen.h>
