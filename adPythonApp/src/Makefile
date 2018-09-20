@@ -45,14 +45,14 @@ ifneq ($(PYTHON_PREFIX),)
 	USR_INCLUDES += -I$(PYTHON_INCLUDE)
 	USR_INCLUDES += -I$(NUMPY_INCLUDE)
 	python$(PYTHON_VERSION)_DIR = $(PYTHON_LIB)
-	adPython_LIBS += python$(PYTHON_VERSION)
+	LIB_LIBS += python$(PYTHON_VERSION)
 else
     # it's in a standard place
-	adPython_SYS_LIBS += python$(PYTHON_VERSION)
+	LIB_SYS_LIBS += python$(PYTHON_VERSION)
 endif
 
 # add more libs
-adPython_LIBS += NDPlugin
+LIB_LIBS += NDPlugin
 
 # location of plugin scripts
 USR_CXXFLAGS += -DDATADIRS=\"$(ADPYTHON_MODULE_PATH)\"
@@ -60,7 +60,5 @@ USR_CXXFLAGS += -DDATADIRS=\"$(ADPYTHON_MODULE_PATH)\"
 # install plugin scripts
 PLUGINSCRIPTS += adPythonOffline.py
 PLUGINSCRIPTS += adPythonPlugin.py
-
-include $(ADCORE)/ADApp/commonLibraryMakefile
 
 include $(TOP)/configure/RULES
