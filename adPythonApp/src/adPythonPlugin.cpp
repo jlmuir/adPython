@@ -134,7 +134,7 @@ void adPythonPlugin::initThreads()
   */
 void adPythonPlugin::processCallbacks(NDArray *pArray) {
     // First call the base class method
-    NDPluginDriver::processCallbacks(pArray);
+    NDPluginDriver::beginProcessCallbacks(pArray);
 
     // Make sure we are in a good state, otherwise do nothing
     if (this->pluginState != GOOD) return;
