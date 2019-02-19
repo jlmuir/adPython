@@ -6,6 +6,9 @@
 #include <Python.h>
 #define PYTHON_USE_NUMPY
 #define NPY_NO_DEPRECATED_API NPY_1_7_API_VERSION
+// Workaround for building against NumPy with -Wall -Wundef -Werror; not
+// needed if NumPy contains commit c6566b7.
+#define NPY_INTERNAL_BUILD 0
 #include "numpy/ndarrayobject.h"
 #include <stdio.h>
 #include <epicsTime.h>
@@ -134,7 +137,7 @@ void adPythonPlugin::processCallbacks(NDArray *pArray) {
     PyGILState_STATE gstate;
 
     // First call the base class method
-    NDPluginDriver::processCallbacks(pArray);
+    NDPluginDriver::beginProcessCallbacks(pArray);
 
     // Make sure we are in a good state, otherwise do nothing
     if (this->pluginState != GOOD) return;
@@ -151,8 +154,8 @@ void adPythonPlugin::processCallbacks(NDArray *pArray) {
     this->lock(); 
 
     // Store the time at the beginning of processing for profiling 
-    epicsTimeStamp start, end;
-    epicsTimeGetCurrent(&start);
+    epicsTimeStamp ts_start, ts_end;
+    epicsTimeGetCurrent(&ts_start);
        
     // Update the attribute dict
     this->updateAttrDict(pArray);        
@@ -180,8 +183,8 @@ void adPythonPlugin::processCallbacks(NDArray *pArray) {
     this->updateAttrList(pArray);
 
     // timestamp
-    epicsTimeGetCurrent(&end);
-    setDoubleParam(adPythonTime, epicsTimeDiffInSeconds(&end, &start)*1000);
+    epicsTimeGetCurrent(&ts_end);
+    setDoubleParam(adPythonTime, epicsTimeDiffInSeconds(&ts_end, &ts_start)*1000);
     callParamCallbacks();
 
     // Unlock
@@ -859,6 +862,7 @@ static int adPythonPluginConfigure(const char *portNameArg, const char *filename
                    NDArrayPort, NDArrayAddr, maxBuffers, maxMemory,
                    priority, stackSize);
     adp->initThreads();
+    adp->start();
     return(asynSuccess);
 }
 
